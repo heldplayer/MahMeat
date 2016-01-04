@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "axis=y":    { "model": "mahmeat:walrus_meat" },
+        "axis=z":    { "model": "mahmeat:walrus_meat_side" },
+        "axis=x":    { "model": "mahmeat:walrus_meat_side", "y": 90 },
+        "axis=none": { "model": "mahmeat:walrus_full" }
+    }
+}

@@ -1,0 +1,17 @@
+{
+  "modListVersion": 2,
+  "modList": [
+    {
+      "modid": "MahMeat",
+      "name": "Mah Meat!",
+      "description": "That's mah meat!",
+      "version": "${version}",
+      "mcversion": "${minecraft_version}",
+      "authorList": [
+        "heldplayer",
+        "amadornes"
+      ],
+      "url": "http://minecraft.curseforge.com/projects/mahmeat"
+    }
+  ]
+}
