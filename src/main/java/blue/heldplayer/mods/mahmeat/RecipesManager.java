@@ -19,7 +19,7 @@ public class RecipesManager {
         Item walrus = Item.getByNameOrId("extracells:walrus");
         if (walrus != null) {
             // Allow for equal conversion rates between walri and walrus meat
-            GameRegistry.addShapedRecipe(new ItemStack(Item.getItemFromBlock(ModMahMeat.walrusMeat), 1, 0), " m ", "MMm", " m ", 'm', new ItemStack(ModMahMeat.meat, 1, 0), 'M', (new ItemStack(Item.getItemFromBlock(ModMahMeat.walrusMeat), 1, 0)));
+            GameRegistry.addShapedRecipe(new ItemStack(walrus), " m ", "MMm", " m ", 'm', new ItemStack(ModMahMeat.meat, 1, 0), 'M', (new ItemStack(Item.getItemFromBlock(ModMahMeat.walrusMeat), 1, 0)));
             GameRegistry.addShapelessRecipe(new ItemStack(ModMahMeat.meat, 21, 0), new ItemStack(walrus));
         } else {
             // Add a different recipe for raw walrus

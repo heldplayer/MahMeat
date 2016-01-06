@@ -47,6 +47,7 @@ public class BlockMeat extends BlockRotatedPillar {
         this.setStepSound(BlockMeat.MEAT_SOUND);
         this.setDefaultState(this.blockState.getBaseState().withProperty(BlockMeat.MEAT_AXIS, BlockMeat.Axis.Y).withProperty(BlockMeat.COOKED, false));
         this.setCreativeTab(CreativeTabs.tabDecorations);
+        this.setHardness(0.8F);
     }
 
     @SideOnly(Side.CLIENT)

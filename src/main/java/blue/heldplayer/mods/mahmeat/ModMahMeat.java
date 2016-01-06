@@ -32,8 +32,8 @@ public class ModMahMeat {
 
         GameRegistry.registerItem(ModMahMeat.meat = new ItemMeatFood(), "multi_meat_item");
         ModMahMeat.meat.setUnlocalizedName("mahmeat.meat");
-        ModMahMeat.meat.registerFood(0, "walrus.uncooked", 2, 0.2F);
-        ModMahMeat.meat.registerFood(1, "walrus.cooked", 6, 0.5F);
+        ModMahMeat.meat.registerFood(0, "walrus_uncooked", 2, 0.2F);
+        ModMahMeat.meat.registerFood(1, "walrus_cooked", 6, 0.5F);
 
         ModMahMeat.proxy.loadModels();
     }

@@ -8,6 +8,8 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMeatFood extends ItemFood {
 
@@ -39,6 +41,7 @@ public class ItemMeatFood extends ItemFood {
         }
     }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> items) {
         for (int i = 0; i < this.subFoods.length; i++) {
