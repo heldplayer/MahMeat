@@ -1,7 +1,0 @@
-{
-    "parent": "block/column_side",
-    "textures": {
-        "end": "mahmeat:blocks/meat_walrus_top",
-        "side": "mahmeat:blocks/meat_walrus"
-    }
-}

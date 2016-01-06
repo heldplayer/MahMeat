@@ -1,5 +1,5 @@
 {
-    "parent": "mahmeat:block/walrus_meat",
+    "parent": "mahmeat:block/walrus_meat_cooked",
     "display": {
         "thirdperson": {
             "rotation": [10, -45, 170],

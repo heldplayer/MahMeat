@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "mahmeat:blocks/meat_walrus"
+        "all": "mahmeat:blocks/meat_walrus_uncooked"
     }
 }

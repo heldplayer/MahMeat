@@ -1,7 +1,11 @@
 package blue.heldplayer.mods.mahmeat;
 
-import blue.heldplayer.mods.mahmeat.block.BlockWalrusMeat;
+import blue.heldplayer.mods.mahmeat.block.BlockMeat;
+import blue.heldplayer.mods.mahmeat.item.ItemBlockMeat;
+import blue.heldplayer.mods.mahmeat.item.ItemMeatFood;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -12,12 +16,30 @@ public class ModMahMeat {
     public static final String MOD_NAME = "Mah Meat!";
     public static final ModInfo MOD_INFO = new ModInfo(ModMahMeat.MOD_ID, ModMahMeat.MOD_NAME);
 
-    public static BlockWalrusMeat walrusMeat;
+    @SidedProxy(clientSide = "blue.heldplayer.mods.mahmeat.client.ClientProxy", serverSide = "blue.heldplayer.mods.mahmeat.CommonProxy")
+    public static CommonProxy proxy;
+
+    public static BlockMeat walrusMeat;
+
+    public static ItemMeatFood meat;
 
     @Mod.EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
         event.getModMetadata().version = ModMahMeat.MOD_INFO.modVersion;
 
-        GameRegistry.registerBlock(ModMahMeat.walrusMeat = new BlockWalrusMeat(), null, "walrus_meat");
+        GameRegistry.registerBlock(ModMahMeat.walrusMeat = new BlockMeat(), ItemBlockMeat.class, "walrus_meat");
+        ModMahMeat.walrusMeat.setUnlocalizedName("mahmeat.meat_walrus");
+
+        GameRegistry.registerItem(ModMahMeat.meat = new ItemMeatFood(), "multi_meat_item");
+        ModMahMeat.meat.setUnlocalizedName("mahmeat.meat");
+        ModMahMeat.meat.registerFood(0, "walrus.uncooked", 4, 0.3F);
+        ModMahMeat.meat.registerFood(1, "walrus.cooked", 7, 0.7F);
+
+        ModMahMeat.proxy.loadModels();
+    }
+
+    @Mod.EventHandler
+    public void onInit(FMLInitializationEvent event) {
+        RecipesManager.registerRecipes();
     }
 }

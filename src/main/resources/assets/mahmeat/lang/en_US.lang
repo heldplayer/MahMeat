@@ -1,0 +1,7 @@
+# Tiles
+tile.mahmeat.meat_walrus.name=Block o' Raw Walrus
+tile.mahmeat.meat_walrus.cooked.name=Block o' Cooked Walrus
+
+# Items
+item.mahmeat.meat.walrus.uncooked.name=Raw Walrus Rib
+item.mahmeat.meat.walrus.cooked.name=Cooked Walrus Rib
