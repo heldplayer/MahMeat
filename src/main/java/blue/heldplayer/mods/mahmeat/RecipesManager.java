@@ -1,10 +1,11 @@
 package blue.heldplayer.mods.mahmeat;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class RecipesManager {
 
@@ -16,10 +17,10 @@ public class RecipesManager {
         GameRegistry.addShapedRecipe(new ItemStack(Item.getItemFromBlock(ModMahMeat.walrusMeat), 1, 1), "mmm", "mmm", "mmm", 'm', new ItemStack(ModMahMeat.meat, 1, 1));
         GameRegistry.addShapelessRecipe(new ItemStack(ModMahMeat.meat, 9, 1), new ItemStack(Item.getItemFromBlock(ModMahMeat.walrusMeat), 1, 1));
 
-        Item walrus = Item.getByNameOrId("extracells:walrus");
+        Item walrus = Item.getItemFromBlock(Block.getBlockFromName("extracells:walrus"));
         if (walrus != null) {
             // Allow for equal conversion rates between walri and walrus meat
-            GameRegistry.addShapedRecipe(new ItemStack(Item.getItemFromBlock(ModMahMeat.walrusMeat), 1, 0), " m ", "MMm", " m ", 'm', new ItemStack(ModMahMeat.meat, 1, 0), 'M', (new ItemStack(Item.getItemFromBlock(ModMahMeat.walrusMeat), 1, 0)));
+            GameRegistry.addShapedRecipe(new ItemStack(walrus), " m ", "MMm", " m ", 'm', new ItemStack(ModMahMeat.meat, 1, 0), 'M', (new ItemStack(Item.getItemFromBlock(ModMahMeat.walrusMeat), 1, 0)));
             GameRegistry.addShapelessRecipe(new ItemStack(ModMahMeat.meat, 21, 0), new ItemStack(walrus));
         } else {
             // Add a different recipe for raw walrus
@@ -27,6 +28,6 @@ public class RecipesManager {
         }
 
         // Furnace recipes
-        FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(ModMahMeat.meat, 1, 0), new ItemStack(ModMahMeat.meat, 1, 1), 0.35F);
+        FurnaceRecipes.smelting().func_151394_a(new ItemStack(ModMahMeat.meat, 1, 0), new ItemStack(ModMahMeat.meat, 1, 1), 0.35F);
     }
 }

@@ -3,11 +3,11 @@ package blue.heldplayer.mods.mahmeat;
 import blue.heldplayer.mods.mahmeat.block.BlockMeat;
 import blue.heldplayer.mods.mahmeat.item.ItemBlockMeat;
 import blue.heldplayer.mods.mahmeat.item.ItemMeatFood;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.GameRegistry;
 
 @Mod(modid = ModMahMeat.MOD_ID, name = ModMahMeat.MOD_NAME)
 public class ModMahMeat {
@@ -28,14 +28,13 @@ public class ModMahMeat {
         event.getModMetadata().version = ModMahMeat.MOD_INFO.modVersion;
 
         GameRegistry.registerBlock(ModMahMeat.walrusMeat = new BlockMeat(), ItemBlockMeat.class, "walrus_meat");
-        ModMahMeat.walrusMeat.setUnlocalizedName("mahmeat.meat_walrus");
+        ModMahMeat.walrusMeat.setBlockName("mahmeat.meat_walrus");
+        ModMahMeat.walrusMeat.setBlockTextureName("mahmeat:meat_walrus");
 
         GameRegistry.registerItem(ModMahMeat.meat = new ItemMeatFood(), "multi_meat_item");
         ModMahMeat.meat.setUnlocalizedName("mahmeat.meat");
-        ModMahMeat.meat.registerFood(0, "walrus.uncooked", 2, 0.2F);
-        ModMahMeat.meat.registerFood(1, "walrus.cooked", 6, 0.5F);
-
-        ModMahMeat.proxy.loadModels();
+        ModMahMeat.meat.registerFood(0, "walrus_uncooked", 2, 0.2F);
+        ModMahMeat.meat.registerFood(1, "walrus_cooked", 6, 0.5F);
     }
 
     @Mod.EventHandler

@@ -1,11 +1,16 @@
 package blue.heldplayer.mods.mahmeat.item;
 
+import blue.heldplayer.mods.mahmeat.ModMahMeat;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
@@ -39,13 +44,43 @@ public class ItemMeatFood extends ItemFood {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    @SideOnly(Side.CLIENT)
     @Override
-    public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> items) {
+    public void getSubItems(Item item, CreativeTabs tab, List items) {
         for (int i = 0; i < this.subFoods.length; i++) {
             if (this.subFoods[i] != null) {
                 items.add(new ItemStack(item, 1, i));
             }
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister textureMap) {
+        for (SubFood subFood : this.subFoods) {
+            subFood.registerIcons(textureMap);
+        }
+    }
+
+    @Override
+    public IIcon getIconFromDamage(int meta) {
+        ItemMeatFood.SubFood food = this.getFood(meta);
+        return food == null ? null : food.getIcon(meta);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(ItemStack stack, int pass) {
+        ItemMeatFood.SubFood food = this.getFood(stack.getItemDamage());
+        return food == null ? null : food.getIcon(stack, pass);
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public IIcon getIcon(ItemStack stack, int pass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
+        ItemMeatFood.SubFood food = this.getFood(stack.getItemDamage());
+        return food == null ? null : food.getIcon(stack, pass, player, usingItem, useRemaining);
     }
 
     @Override
@@ -60,13 +95,13 @@ public class ItemMeatFood extends ItemFood {
     }
 
     @Override
-    public int getHealAmount(ItemStack stack) {
+    public int func_150905_g(ItemStack stack) {
         ItemMeatFood.SubFood food = this.getFood(stack.getItemDamage());
         return food == null ? 0 : food.getHealAmount();
     }
 
     @Override
-    public float getSaturationModifier(ItemStack stack) {
+    public float func_150906_h(ItemStack stack) {
         ItemMeatFood.SubFood food = this.getFood(stack.getItemDamage());
         return food == null ? 0.0F : food.getSaturationModifier();
     }
@@ -88,6 +123,8 @@ public class ItemMeatFood extends ItemFood {
         protected int healAmount;
         protected float saturationModifier;
         protected boolean alwaysEdible;
+        @SideOnly(Side.CLIENT)
+        protected IIcon icon;
 
         public SubFood(String name, int healAmount, float saturationModifier) {
             this.name = name;
@@ -109,6 +146,26 @@ public class ItemMeatFood extends ItemFood {
 
         public void setAlwaysEdible() {
             this.alwaysEdible = true;
+        }
+
+        @SideOnly(Side.CLIENT)
+        public void registerIcons(IIconRegister textureMap) {
+            this.icon = textureMap.registerIcon(ModMahMeat.MOD_ID + ":" + this.name);
+        }
+
+        @SideOnly(Side.CLIENT)
+        public IIcon getIcon(int meta) {
+            return this.icon;
+        }
+
+        @SideOnly(Side.CLIENT)
+        public IIcon getIcon(ItemStack stack, int pass) {
+            return this.getIcon(stack.getItemDamage());
+        }
+
+        @SideOnly(Side.CLIENT)
+        public IIcon getIcon(ItemStack stack, int renderPass, EntityPlayer player, ItemStack usingItem, int useRemaining) {
+            return this.getIcon(stack, renderPass);
         }
     }
 }

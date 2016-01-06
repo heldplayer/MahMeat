@@ -16,11 +16,11 @@ public class ItemBlockMeat extends ItemBlock {
     public String getUnlocalizedName(ItemStack stack) {
         switch (stack.getItemDamage()) {
             case 0:
-                return this.block.getUnlocalizedName();
+                return this.field_150939_a.getUnlocalizedName();
             case 1:
-                return this.block.getUnlocalizedName() + ".cooked";
+                return this.field_150939_a.getUnlocalizedName() + ".cooked";
             default:
-                return this.block.getUnlocalizedName() + ".unknown";
+                return this.field_150939_a.getUnlocalizedName() + ".unknown";
         }
     }
 
