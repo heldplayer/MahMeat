@@ -1,0 +1,7 @@
+# Tiles
+tile.mahmeat.meat_walrus.name=生海象肉的块
+tile.mahmeat.meat_walrus.cooked.name=熟海象肉的块
+
+# Items
+item.mahmeat.meat.walrus_uncooked.name=生海象大排
+item.mahmeat.meat.walrus_cooked.name=熟海象大排
