@@ -23,7 +23,7 @@ public class ItemMeatFood extends ItemFood {
     public void registerFood(int meta, ItemMeatFood.SubFood food) {
         if (meta >= this.subFoods.length) {
             ItemMeatFood.SubFood[] old = this.subFoods;
-            this.subFoods = new ItemMeatFood.SubFood[old.length + 2]; // Increase with 2 as we'll usually do raw and cooked versions
+            this.subFoods = new ItemMeatFood.SubFood[old.length + 1];
             System.arraycopy(old, 0, this.subFoods, 0, old.length);
         }
         this.subFoods[meta] = food;

@@ -2,6 +2,7 @@ package blue.heldplayer.mods.mahmeat.block;
 
 import java.util.List;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -15,14 +16,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BlockMeat extends BlockRotatedPillar {
 
-    public static final PropertyEnum<BlockMeat.Axis> MEAT_AXIS = PropertyEnum.create("axis", BlockMeat.Axis.class);
+    public static final PropertyEnum<BlockLog.EnumAxis> MEAT_AXIS = PropertyEnum.create("axis", BlockLog.EnumAxis.class);
     public static final PropertyBool COOKED = PropertyBool.create("cooked");
 
     public static final Block.SoundType MEAT_SOUND = new Block.SoundType("slime", 0.7F, 0.5F) {
@@ -45,7 +45,7 @@ public class BlockMeat extends BlockRotatedPillar {
     public BlockMeat() {
         super(Material.clay, MapColor.brownColor);
         this.setStepSound(BlockMeat.MEAT_SOUND);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockMeat.MEAT_AXIS, BlockMeat.Axis.Y).withProperty(BlockMeat.COOKED, false));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(BlockMeat.MEAT_AXIS, BlockLog.EnumAxis.Y).withProperty(BlockMeat.COOKED, false));
         this.setCreativeTab(CreativeTabs.tabDecorations);
         this.setHardness(0.8F);
     }
@@ -59,22 +59,22 @@ public class BlockMeat extends BlockRotatedPillar {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        BlockMeat.Axis axis;
+        BlockLog.EnumAxis axis;
         boolean cooked = (meta & 1) == 1; // 0b0001
-        int i = meta & 12; // 0b1100
+        int rotation = meta & 12; // 0b1100
 
-        switch (meta & 12) {
+        switch (rotation) {
             case 0:
-                axis = BlockMeat.Axis.Y;
+                axis = BlockLog.EnumAxis.Y;
                 break;
             case 4:
-                axis = BlockMeat.Axis.X;
+                axis = BlockLog.EnumAxis.X;
                 break;
             case 8:
-                axis = BlockMeat.Axis.Z;
+                axis = BlockLog.EnumAxis.Z;
                 break;
             default:
-                axis = BlockMeat.Axis.NONE;
+                axis = BlockLog.EnumAxis.NONE;
                 break;
         }
 
@@ -87,7 +87,7 @@ public class BlockMeat extends BlockRotatedPillar {
         if (state.getValue(BlockMeat.COOKED)) {
             i |= 1;
         }
-        BlockMeat.Axis axis = state.getValue(BlockMeat.MEAT_AXIS);
+        BlockLog.EnumAxis axis = state.getValue(BlockMeat.MEAT_AXIS);
 
         switch (axis) {
             case X:
@@ -115,46 +115,11 @@ public class BlockMeat extends BlockRotatedPillar {
 
     @Override
     public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        return super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockMeat.MEAT_AXIS, BlockMeat.Axis.fromFacingAxis(facing.getAxis())).withProperty(BlockMeat.COOKED, meta == 1);
+        return super.onBlockPlaced(world, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(BlockMeat.MEAT_AXIS, BlockLog.EnumAxis.fromFacingAxis(facing.getAxis())).withProperty(BlockMeat.COOKED, meta == 1);
     }
 
     @Override
     public int damageDropped(IBlockState state) {
         return state.getValue(BlockMeat.COOKED) ? 1 : 0;
-    }
-
-    public enum Axis implements IStringSerializable {
-        X("x"),
-        Y("y"),
-        Z("z"),
-        NONE("none");
-
-        private final String name;
-
-        Axis(String name) {
-            this.name = name;
-        }
-
-        public String toString() {
-            return this.name;
-        }
-
-        public static BlockMeat.Axis fromFacingAxis(EnumFacing.Axis axis) {
-            switch (axis) {
-                case X:
-                    return BlockMeat.Axis.X;
-                case Y:
-                    return BlockMeat.Axis.Y;
-                case Z:
-                    return BlockMeat.Axis.Z;
-                default:
-                    return BlockMeat.Axis.NONE;
-            }
-        }
-
-        @Override
-        public String getName() {
-            return this.name;
-        }
     }
 }

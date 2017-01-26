@@ -27,8 +27,10 @@ repositories {
     }
 }
 
-sourceCompatibility = 1.6
-targetCompatibility = 1.6
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
 
 ext.configFile = file "build.properties"
 ext.configFile.withReader {
@@ -43,15 +45,17 @@ ext.forge_version = config.forge_version
 
 println "$project.name for Forge: " + minecraft_version + "-" + forge_version
 
-version = minecraft_version + "-" + config.super_number + "." + config.major_number + "." + config.minor_number
+version = minecraft_version + "-" + config.major_number + "." + config.minor_number + "." + config.patch_number + config.postfix
 group = "blue.heldplayer.mahmeat"
 archivesBaseName = "MahMeat"
 
 minecraft {
     version = minecraft_version + "-" + forge_version
     runDir = "../../jar"
-    mappings = "stable_20"
     useDepAts = true
+
+    mappings = "stable_20"
+    makeObfSourceJar = false
 
     if (project.hasProperty("signature"))
         replace "@FINGERPRINT@", project.signature
@@ -60,23 +64,19 @@ minecraft {
 processResources {
     // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
-    inputs.property "minecraft_version", project.minecraft.version
+    inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in text files, not binary ones.
+    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        include '*.version'
+        include 'mcmod.info', 'version.properties'
 
-        // replace version and minecraft_version
-        expand([
-                version          : config.super_number + "." + config.major_number + "." + config.minor_number,
-                minecraft_version: minecraft_version
-        ])
+        // replace version and mcversion
+        expand 'version': config.major_number + "." + config.minor_number + "." + config.patch_number + config.postfix,
+                'mcversion': project.minecraft.version
     }
 
-    // copy everything else, thats not the mcmod.info
+    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-        exclude '*.version'
+        exclude 'mcmod.info', 'version.properties'
     }
 }
