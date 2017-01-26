@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -47,7 +48,7 @@ public class ItemMeatFood extends ItemFood {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> items) {
+    public void getSubItems(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> items) {
         for (int i = 0; i < this.subFoods.length; i++) {
             if (this.subFoods[i] != null) {
                 items.add(new ItemStack(item, 1, i));
@@ -82,7 +83,11 @@ public class ItemMeatFood extends ItemFood {
 
     @Nonnull
     @Override
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World world, EntityPlayer player, @Nonnull EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
+        ItemStack stack = player.getHeldItem(hand);
+        if (stack == ItemStack.EMPTY) {
+            return new ActionResult<>(EnumActionResult.PASS, stack);
+        }
         ItemMeatFood.SubFood food = this.getFood(stack.getItemDamage());
         if (food != null) {
             if (player.canEat(food.alwaysEdible)) {

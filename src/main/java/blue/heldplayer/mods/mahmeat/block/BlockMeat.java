@@ -1,6 +1,5 @@
 package blue.heldplayer.mods.mahmeat.block;
 
-import java.util.List;
 import javax.annotation.Nonnull;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockRotatedPillar;
@@ -17,6 +16,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -39,7 +39,7 @@ public class BlockMeat extends BlockRotatedPillar {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void getSubBlocks(@Nonnull Item item, CreativeTabs tab, List<ItemStack> items) {
+    public void getSubBlocks(@Nonnull Item item, CreativeTabs tab, NonNullList<ItemStack> items) {
         items.add(new ItemStack(item, 1, 0));
         items.add(new ItemStack(item, 1, 1));
     }
@@ -98,14 +98,15 @@ public class BlockMeat extends BlockRotatedPillar {
     }
 
     @SuppressWarnings("ConstantConditions")
+    @Nonnull
     @Override
-    protected ItemStack createStackedBlock(IBlockState state) {
-        return new ItemStack(Item.getItemFromBlock(this), 1, 0);
+    protected ItemStack getSilkTouchDrop(IBlockState state) {
+        return new ItemStack(Item.getItemFromBlock(this), 1, state.getValue(COOKED) ? 1 : 0);
     }
 
     @Nonnull
     @Override
-    public IBlockState onBlockPlaced(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         return this.getStateFromMeta(meta).withProperty(BlockMeat.MEAT_AXIS, BlockLog.EnumAxis.fromFacingAxis(facing.getAxis())).withProperty(BlockMeat.COOKED, meta == 1);
     }
 
