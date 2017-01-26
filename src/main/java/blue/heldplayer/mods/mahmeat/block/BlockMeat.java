@@ -47,14 +47,14 @@ public class BlockMeat extends BlockRotatedPillar {
     @SideOnly(Side.CLIENT)
     @Override
     public void registerBlockIcons(IIconRegister textureMap) {
-    	topTextures = new IIcon[2];
-    	sideTextures = new IIcon[2];
-        // Uncooked variant
-        this.sideTextures[0] = textureMap.registerIcon(this.textureName + "_uncooked");
-        this.topTextures[0] = textureMap.registerIcon(this.textureName + "_uncooked_top");
-        // Cooked variant
-        this.sideTextures[1] = textureMap.registerIcon(this.textureName + "_cooked");
-        this.topTextures[1] = textureMap.registerIcon(this.textureName + "_cooked_top");
+        this.topTextures = new IIcon[] {
+                textureMap.registerIcon(this.textureName + "_uncooked_top"),
+                textureMap.registerIcon(this.textureName + "_cooked_top")
+        };
+        this.sideTextures = new IIcon[] {
+                textureMap.registerIcon(this.textureName + "_uncooked"),
+                textureMap.registerIcon(this.textureName + "_cooked")
+        };
     }
 
     @Override

@@ -1,6 +1,5 @@
 package blue.heldplayer.mods.mahmeat.item;
 
-import blue.heldplayer.mods.mahmeat.ModMahMeat;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
@@ -26,7 +25,7 @@ public class ItemMeatFood extends ItemFood {
     public void registerFood(int meta, ItemMeatFood.SubFood food) {
         if (meta >= this.subFoods.length) {
             ItemMeatFood.SubFood[] old = this.subFoods;
-            this.subFoods = new ItemMeatFood.SubFood[old.length + 2]; // Increase with 2 as we'll usually do raw and cooked versions
+            this.subFoods = new ItemMeatFood.SubFood[old.length + 1];
             System.arraycopy(old, 0, this.subFoods, 0, old.length);
         }
         this.subFoods[meta] = food;
@@ -150,7 +149,7 @@ public class ItemMeatFood extends ItemFood {
 
         @SideOnly(Side.CLIENT)
         public void registerIcons(IIconRegister textureMap) {
-            this.icon = textureMap.registerIcon(ModMahMeat.MOD_ID + ":" + this.name);
+            this.icon = textureMap.registerIcon("mahmeat:" + this.name);
         }
 
         @SideOnly(Side.CLIENT)

@@ -1,17 +1,11 @@
-{
-  "modListVersion": 2,
-  "modList": [
+[
     {
-      "modid": "MahMeat",
-      "name": "Mah Meat!",
-      "description": "That's mah meat!",
-      "version": "${version}",
-      "mcversion": "${minecraft_version}",
-      "authorList": [
-        "heldplayer",
-        "amadornes"
-      ],
-      "url": "http://minecraft.curseforge.com/projects/mahmeat"
+        "modid": "mahmeat",
+        "name": "Mah Meat!",
+        "description": "That's mah meat!",
+        "version": "${version}",
+        "mcversion" : "${mcversion}",
+        "authorList": [ "heldplayer", "amadornes" ],
+        "url": "https://minecraft.curseforge.com/projects/mahmeat"
     }
-  ]
-}
+]
