@@ -3,6 +3,7 @@ package blue.heldplayer.mods.mahmeat;
 import blue.heldplayer.mods.mahmeat.block.BlockMeat;
 import blue.heldplayer.mods.mahmeat.item.ItemBlockMeat;
 import blue.heldplayer.mods.mahmeat.item.ItemMeatFood;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
@@ -17,15 +18,17 @@ public class MahMeat {
     public static CommonProxy proxy;
 
     public static BlockMeat walrusMeat;
+    public static ItemBlockMeat walrusMeatItem;
 
     public static ItemMeatFood meat;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        GameRegistry.registerBlock(MahMeat.walrusMeat = new BlockMeat(), ItemBlockMeat.class, "walrus_meat");
+        GameRegistry.register(MahMeat.walrusMeat = new BlockMeat(), new ResourceLocation("mahmeat", "walrus_meat"));
+        GameRegistry.register(MahMeat.walrusMeatItem = new ItemBlockMeat(MahMeat.walrusMeat));
         MahMeat.walrusMeat.setUnlocalizedName("mahmeat.meat_walrus");
 
-        GameRegistry.registerItem(MahMeat.meat = new ItemMeatFood(), "multi_meat_item");
+        GameRegistry.register(MahMeat.meat = new ItemMeatFood(), new ResourceLocation("mahmeat", "multi_meat_item"));
         MahMeat.meat.setUnlocalizedName("mahmeat.meat");
         MahMeat.meat.registerFood(0, "walrus_uncooked", 2, 0.2F);
         MahMeat.meat.registerFood(1, "walrus_cooked", 6, 0.5F);
@@ -40,10 +43,10 @@ public class MahMeat {
 
     @Mod.EventHandler
     public void onFingerprintViolation(FMLFingerprintViolationEvent event) {
-        if (!event.isDirectory) {
+        if (!event.isDirectory()) {
             System.err.println("Invalid fingerprint detected!");
-            System.err.println("Expected: " + event.expectedFingerprint);
-            System.err.println("Actual:   " + event.fingerprints.toString());
+            System.err.println("Expected: " + event.getExpectedFingerprint());
+            System.err.println("Actual:   " + event.getFingerprints().toString());
         }
     }
 }

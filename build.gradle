@@ -7,25 +7,10 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
-
-repositories {
-    ivy {
-        name 'Forge FS legacy'
-        artifactPattern "http://files.minecraftforge.net/[module]/[module]-dev-[revision].[ext]"
-    }
-    maven {
-        name 'ForgeFS'
-        url 'http://files.minecraftforge.net/maven'
-    }
-    maven {
-        name 'MinecraftS3'
-        url 'http://s3.amazonaws.com/Minecraft.Download/libraries'
-    }
-}
 
 sourceCompatibility = targetCompatibility = "1.8"
 compileJava {
@@ -51,10 +36,10 @@ archivesBaseName = "MahMeat"
 
 minecraft {
     version = minecraft_version + "-" + forge_version
-    runDir = "../../jar"
+    runDir = "run"
     useDepAts = true
 
-    mappings = "stable_20"
+    mappings = "snapshot_20160518"
     makeObfSourceJar = false
 
     if (project.hasProperty("signature"))
@@ -80,3 +65,21 @@ processResources {
         exclude 'mcmod.info', 'version.properties'
     }
 }
+
+// https://gist.github.com/matthewprenger/9b2da059b89433a01c1c
+task signJar(type: SignJar, dependsOn: reobfJar) {
+    onlyIf { project.hasProperty('keyStore') }
+
+    if (!project.hasProperty('keyStore')) { // This shouldn't be possible, but onlyIf isn't working properly :/
+        throw new StopExecutionException()
+    }
+
+    keyStore = project.keyStore // This needs to be a path to the keystore file
+    alias = project.keyStoreAlias
+    storePass = project.keyStorePass
+    keyPass = project.keyStoreKeyPass
+    inputFile = jar.archivePath
+    outputFile = jar.archivePath
+}
+
+build.dependsOn signJar

@@ -1,13 +1,13 @@
 {
     "variants": {
         "axis=y,cooked=false":    { "model": "mahmeat:walrus_meat_uncooked" },
-        "axis=z,cooked=false":    { "model": "mahmeat:walrus_meat_uncooked_side" },
-        "axis=x,cooked=false":    { "model": "mahmeat:walrus_meat_uncooked_side", "y": 90 },
+        "axis=z,cooked=false":    { "model": "mahmeat:walrus_meat_uncooked", "x": 90 },
+        "axis=x,cooked=false":    { "model": "mahmeat:walrus_meat_uncooked", "x": 90, "y": 90 },
         "axis=none,cooked=false": { "model": "mahmeat:walrus_meat_uncooked_full" },
 
         "axis=y,cooked=true":     { "model": "mahmeat:walrus_meat_cooked" },
-        "axis=z,cooked=true":     { "model": "mahmeat:walrus_meat_cooked_side" },
-        "axis=x,cooked=true":     { "model": "mahmeat:walrus_meat_cooked_side", "y": 90 },
+        "axis=z,cooked=true":     { "model": "mahmeat:walrus_meat_cooked", "x": 90 },
+        "axis=x,cooked=true":     { "model": "mahmeat:walrus_meat_cooked", "x": 90, "y": 90 },
         "axis=none,cooked=true":  { "model": "mahmeat:walrus_meat_cooked_full" }
     }
 }

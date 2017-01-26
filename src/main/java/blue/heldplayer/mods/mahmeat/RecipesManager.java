@@ -1,5 +1,6 @@
 package blue.heldplayer.mods.mahmeat;
 
+import blue.heldplayer.mods.mahmeat.item.ItemMeatFood;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -10,23 +11,29 @@ public class RecipesManager {
 
     public static void registerRecipes() {
         // Uncooked walrus meat
-        GameRegistry.addShapedRecipe(new ItemStack(Item.getItemFromBlock(MahMeat.walrusMeat), 1, 0), "mmm", "mmm", "mmm", 'm', new ItemStack(MahMeat.meat, 1, 0));
-        GameRegistry.addShapelessRecipe(new ItemStack(MahMeat.meat, 9, 0), new ItemStack(Item.getItemFromBlock(MahMeat.walrusMeat), 1, 0));
+        Item walrusMeat = Item.getItemFromBlock(MahMeat.walrusMeat);
+        ItemMeatFood meat = MahMeat.meat;
+        if (walrusMeat == null || meat == null) {
+            throw new IllegalStateException();
+        }
+
+        GameRegistry.addShapedRecipe(new ItemStack(walrusMeat, 1, 0), "mmm", "mmm", "mmm", 'm', new ItemStack(meat, 1, 0));
+        GameRegistry.addShapelessRecipe(new ItemStack(meat, 9, 0), new ItemStack(walrusMeat, 1, 0));
         // Cooked walrus meat
-        GameRegistry.addShapedRecipe(new ItemStack(Item.getItemFromBlock(MahMeat.walrusMeat), 1, 1), "mmm", "mmm", "mmm", 'm', new ItemStack(MahMeat.meat, 1, 1));
-        GameRegistry.addShapelessRecipe(new ItemStack(MahMeat.meat, 9, 1), new ItemStack(Item.getItemFromBlock(MahMeat.walrusMeat), 1, 1));
+        GameRegistry.addShapedRecipe(new ItemStack(walrusMeat, 1, 1), "mmm", "mmm", "mmm", 'm', new ItemStack(meat, 1, 1));
+        GameRegistry.addShapelessRecipe(new ItemStack(meat, 9, 1), new ItemStack(walrusMeat, 1, 1));
 
         Item walrus = Item.getByNameOrId("extracells:walrus");
         if (walrus != null) {
             // Allow for equal conversion rates between walruses and walrus meat
-            GameRegistry.addShapedRecipe(new ItemStack(walrus), " m ", "MMm", " m ", 'm', new ItemStack(MahMeat.meat, 1, 0), 'M', (new ItemStack(Item.getItemFromBlock(MahMeat.walrusMeat), 1, 0)));
-            GameRegistry.addShapelessRecipe(new ItemStack(MahMeat.meat, 21, 0), new ItemStack(walrus));
+            GameRegistry.addShapedRecipe(new ItemStack(walrus), " m ", "MMm", " m ", 'm', new ItemStack(meat, 1, 0), 'M', (new ItemStack(walrusMeat, 1, 0)));
+            GameRegistry.addShapelessRecipe(new ItemStack(meat, 21, 0), new ItemStack(walrus));
         } else {
             // Add a different recipe for raw walrus
-            GameRegistry.addShapedRecipe(new ItemStack(Item.getItemFromBlock(MahMeat.walrusMeat), 1, 0), "fff", "fbf", "fff", 'f', Items.fish, 'b', Items.bone);
+            GameRegistry.addShapedRecipe(new ItemStack(walrusMeat, 1, 0), "fff", "fbf", "fff", 'f', Items.FISH, 'b', Items.BONE);
         }
 
         // Furnace recipes
-        FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(MahMeat.meat, 1, 0), new ItemStack(MahMeat.meat, 1, 1), 0.35F);
+        FurnaceRecipes.instance().addSmeltingRecipe(new ItemStack(meat, 1, 0), new ItemStack(meat, 1, 1), 0.35F);
     }
 }

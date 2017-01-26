@@ -1,12 +1,16 @@
 package blue.heldplayer.mods.mahmeat.item;
 
 import java.util.List;
+import javax.annotation.Nonnull;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -43,7 +47,7 @@ public class ItemMeatFood extends ItemFood {
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void getSubItems(Item item, CreativeTabs tab, List<ItemStack> items) {
+    public void getSubItems(@Nonnull Item item, CreativeTabs tab, List<ItemStack> items) {
         for (int i = 0; i < this.subFoods.length; i++) {
             if (this.subFoods[i] != null) {
                 items.add(new ItemStack(item, 1, i));
@@ -51,15 +55,17 @@ public class ItemMeatFood extends ItemFood {
         }
     }
 
+    @Nonnull
     @Override
     public String getUnlocalizedName(ItemStack stack) {
         ItemMeatFood.SubFood food = this.getFood(stack.getItemDamage());
         return this.getUnlocalizedName() + "." + (food == null ? "null" : food.getName());
     }
 
+    @Nonnull
     @Override
-    public String getItemStackDisplayName(ItemStack stack) {
-        return StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name").trim();
+    public String getItemStackDisplayName(@Nonnull ItemStack stack) {
+        return I18n.translateToLocal(this.getUnlocalizedNameInefficiently(stack) + ".name").trim();
     }
 
     @Override
@@ -74,15 +80,17 @@ public class ItemMeatFood extends ItemFood {
         return food == null ? 0.0F : food.getSaturationModifier();
     }
 
+    @Nonnull
     @Override
-    public ItemStack onItemRightClick(ItemStack stack, World world, EntityPlayer player) {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull ItemStack stack, World world, EntityPlayer player, @Nonnull EnumHand hand) {
         ItemMeatFood.SubFood food = this.getFood(stack.getItemDamage());
         if (food != null) {
             if (player.canEat(food.alwaysEdible)) {
-                player.setItemInUse(stack, this.getMaxItemUseDuration(stack));
+                player.setActiveHand(hand);
+                return new ActionResult<>(EnumActionResult.SUCCESS, stack);
             }
         }
-        return stack;
+        return new ActionResult<>(EnumActionResult.PASS, stack);
     }
 
     public static class SubFood {
